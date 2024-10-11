@@ -1,12 +1,14 @@
 package base;
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.devtools.idealized.Javascript;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 
 public class BaseMethods extends Base {
 
@@ -24,7 +26,7 @@ public class BaseMethods extends Base {
 		}
 		return false;
 	}
-	
+
 	public static void WaitForElementToBeVisible(WebElement ele, int time) {
 		@SuppressWarnings("unused")
 		WebElement element = null;
@@ -63,7 +65,7 @@ public class BaseMethods extends Base {
 		try {
 			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 			wait.until(ExpectedConditions.elementToBeClickable(ele));
-			System.out.println("Entering text into element " + ele.getText());
+			System.out.println("Entering " + text + " into element " + ele.getText());
 			ele.clear();
 			ele.sendKeys(text);
 		} catch (Exception e) {
@@ -72,4 +74,52 @@ public class BaseMethods extends Base {
 		}
 	}
 
+	public static boolean verifyEndPointInURL(String endPoint) {
+		if (driver.getCurrentUrl().contains(endPoint)) {
+			System.out.println("URL contains : " + endPoint);
+			return true;
+		} else {
+			System.out.println("URL does not  contain : " + endPoint);
+			return false;
+		}
+	}
+
+	public static void PressEnter(WebElement ele) {
+		try {
+			ele.sendKeys(Keys.ENTER);
+			System.out.println("Enter pressed");
+		} catch (Exception e) {
+			System.out.println("Unable to hit enter");
+			e.printStackTrace();
+		}
+	}
+
+	public static void HitEnter(WebElement ele) {
+		try {
+			Actions action = new Actions(driver);
+			action.moveToElement(ele).sendKeys(Keys.ENTER).build().perform();
+			System.out.println("Enter Hitted");
+		} catch (Exception e) {
+			System.out.println("Unable to hit enter");
+			e.printStackTrace();
+		}
+	}
+
+	public static void JSEnter(WebElement ele) {
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript("arguement[0].dispatchEvent(new KeyboardEvent('keydown',{'key':'Enter'}))", ele);
+		} catch (Exception e) {
+			System.out.println("Unable to hit enter");
+			e.printStackTrace();
+		}
+	}
+
+	public void waitfor(int seconds) {
+		try {
+			Thread.sleep(seconds * 1000);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 }
