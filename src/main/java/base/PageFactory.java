@@ -11,6 +11,8 @@ public class PageFactory extends BaseMethods {
 	public String SearchText = "Employee Education in 2018: Strategies to Watch";
 	public String CitySearch = "New York";
 	public String ChildCareLocatorURL = "/child-care-locator";
+	public String centerName;
+	public String centreAddress;
 
 	@FindBy(xpath = "(//a[@class='nav-link-search track_nav_interact collapsed'])[2]")
 	public WebElement searchIcon;
@@ -51,6 +53,9 @@ public class PageFactory extends BaseMethods {
 	@FindBy(xpath = "//div[contains(text(),'Enter a location to get started')]")
 	public WebElement waitCenterLocationResult;
 
+	@FindBy(id = "distance")
+	public WebElement distanceDropdown;
+
 	public WebElement getCenterLocationResultWaitText() {
 		return waitCenterLocationResult;
 	}
@@ -73,6 +78,10 @@ public class PageFactory extends BaseMethods {
 
 	public WebElement getCenterSearchField() {
 		return centerSearchField;
+	}
+
+	public WebElement getDistanceDropdown() {
+		return distanceDropdown;
 	}
 
 	public WebElement getFindACenterButton() {
@@ -111,11 +120,24 @@ public class PageFactory extends BaseMethods {
 		try {
 			WebElement parentElement = getTotalCenterResults().get(parentIndex);
 			List<WebElement> subElements = parentElement.findElements(By.xpath("./*"));
+			System.out.println("Subelement name : " + subElements.get(subElementIndex).getText());
 			return subElements.get(subElementIndex).getText();
 		} catch (Exception e) {
 			System.out.println("invalid index");
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public void getNameandAdressOfCenterResult(int index) {
+		WebElement parentElement = getTotalCenterResults().get(index--);
+		List<WebElement> subElements = parentElement.findElements(By.xpath("./*"));
+		centerName = subElements.get(0).getText();
+		centreAddress = subElements.get(2).getText();
+	}
+
+	public String getCenterPopUpAdressOnSingleLine() {
+		System.out.println(getCenterPopUpAdress().getText().replace("\n", " ").replaceAll("\\s", " ").trim());
+		return getCenterPopUpAdress().getText().replace("\n", " ").replaceAll("\\s", " ").trim();
 	}
 }

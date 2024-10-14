@@ -33,6 +33,7 @@ public class BaseMethods extends Base {
 		try {
 			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(time));
 			element = wait.until(ExpectedConditions.visibilityOf(ele));
+			System.out.println("Element is visible" + ele.getText());
 		} catch (org.openqa.selenium.TimeoutException e) {
 			System.out.println("Element not visible");
 			e.printStackTrace();
@@ -45,7 +46,7 @@ public class BaseMethods extends Base {
 		try {
 			WebDriverWait wait = new WebDriverWait(driver, time);
 			element = wait.until(ExpectedConditions.elementToBeClickable(ele));
-			System.out.println("Element " + ele.getText() + " is Clickable");
+		//a	System.out.println("Element " + ele.getText() + " is Clickable");
 			return true;
 		} catch (org.openqa.selenium.TimeoutException e) {
 			System.out.println("Element is not clickable");
@@ -56,7 +57,7 @@ public class BaseMethods extends Base {
 
 	public void click(WebElement ele) {
 		if (isClickable(ele, Duration.ofSeconds(30))) {
-			System.out.println("Clicking on " + ele.getText());
+			//System.out.println("Clicking on " + ele.getText());
 			ele.click();
 		}
 	}
